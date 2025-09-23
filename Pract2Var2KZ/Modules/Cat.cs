@@ -1,51 +1,51 @@
-﻿using Pract2Var2KZ.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Pract2Var2KZ.Modules
 {
-    internal class Cat : Animal
+    public class Cat : Animal
     {
-        public int Age { get; set; }
+        public override double MaxHunger => Constants.AdultMaxHunger;
 
-
-        public Cat (double weight, string breed, int age) : base(new Weight(weight), breed)
+        protected Cat (Weight weight, CatBreed breed, int age) : base(weight, breed.ToString(), age)
         {
-            if (Enum.IsDefined(typeof(CatBreed), breed))
+        }
+
+        public static Cat Perform(Weight weight, CatBreed breed, int age)
+        {
+            
+            if (age < Constants.KittenHighestAge)
             {
-                Console.WriteLine("this cat breed exists");
-                if (age > 0)
-                {
-                    Age = age;
-                }
-                else
-                {
-                    Console.Write("Wrong age amount");
-                }
-                    
+                return new Kitten(weight, breed, age);
             }
             else
             {
-                Console.WriteLine("this breed doesn't exist");
+                return new Cat(weight, breed, age);
             }
-            
         }
+
+        public override void Eat()
+        {
+            double append = Weight.Weight_kg * Constants.CatWeightGainPercent;
+            Weight = new Weight(Weight.Weight_kg + append);
+            HungerLevel = Math.Min(MaxHunger, HungerLevel + Constants.CatHungerIncreasePerFeed);
+        }
+
         public virtual void Play()
         {
-
+            double loss = Weight.Weight_kg * Constants.CatWeightLossPercent;
+            Weight = new Weight(Weight.Weight_kg - loss);
+            HungerLevel = Math.Max(0, HungerLevel - Constants.CatHungerDecreasePerPlay);
         }
 
-        public void Feed()
+        public static void GiveAngrylLook()
         {
 
         }
 
-        static public void GetAngrySight() 
-        { 
-            
-        }
     }
 }

@@ -4,19 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pract2Var2KZ.Classes
+
+namespace Pract2Var2KZ.Modules
 {
-    struct Weight
+    public struct Weight //in kg
     {
-        public double WeightAmount { get; private set; }
-        
-        public Weight(double weight)
+
+        private double _weight_kg;
+        public double Weight_kg
         {
-            WeightAmount = weight;
-        } 
+            get { return _weight_kg; }
+            private set
+            {
+                if (value < 0) throw new ArgumentException("Negative weight");
+                _weight_kg = value;
+            }
+        }
+
+        public Weight(double weight_kg)
+        {
+            if (weight_kg < 0) throw new ArgumentException("Negative weight");
+            _weight_kg = weight_kg;
+        }
+
         public override string ToString()
         {
-            return $"{WeightAmount} kg";
+            return $"{Weight_kg} kg";
         }
     }
 }
