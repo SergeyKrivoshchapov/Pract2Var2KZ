@@ -1,9 +1,18 @@
-﻿using System;
+using Pract2Var2KZ.MenuOfProgram;
+using Pract2Var2KZ.Modules;
+using System;
 
-class Program
+namespace ProgramByAnimal
 {
-    static void Main(string[] args)
+    class Program
     {
+        static void Main(string[] args)
+        {
+            PetHouse house = new PetHouse();
 
+            Menu menu = new Menu(house);
+
+            menu.StartMenu();
+        }
     }
 }
