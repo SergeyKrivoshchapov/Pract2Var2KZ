@@ -8,10 +8,15 @@ namespace Pract2Var2KZ.Classes
 {
     struct Weight
     {
-        public int WeightAmount { get; private set; }
-        public string ToString()
+        public double WeightAmount { get; private set; }
+        
+        public Weight(double weight)
         {
-            return WeightAmount.ToString();
+            WeightAmount = weight;
+        } 
+        public override string ToString()
+        {
+            return $"{WeightAmount} kg";
         }
     }
 }

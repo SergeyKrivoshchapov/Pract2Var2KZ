@@ -1,4 +1,4 @@
-﻿using Pract2Var2KZ.MenuOfProgram;
+using Pract2Var2KZ.MenuOfProgram;
 using Pract2Var2KZ.Modules;
 using System;
 
@@ -13,8 +13,6 @@ namespace ProgramByAnimal
             Menu menu = new Menu(house);
 
             menu.StartMenu();
-
-
         }
     }
 }
