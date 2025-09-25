@@ -17,20 +17,6 @@ namespace Pract2Var2KZ.MenuOfProgram
             _petHouse = petHouse;
         }
 
-        private void DrawWithColor(object obj, ConsoleColor fontColor, ConsoleColor textColor)
-        {
-            ConsoleColor origintFontColor = Console.BackgroundColor;
-            ConsoleColor origintTextColor = Console.ForegroundColor;
-
-            Console.BackgroundColor = fontColor;
-            Console.ForegroundColor = textColor;
-
-            Console.Write(obj);
-
-            Console.BackgroundColor = origintFontColor;
-            Console.ForegroundColor = origintTextColor;
-        }
-
         private void DrawFirstPage()
         {
             Console.Clear();
@@ -40,7 +26,7 @@ namespace Pract2Var2KZ.MenuOfProgram
             if (_petHouse == null)
             {
                 Console.WriteLine("1) Создать новый объект");
-                DrawWithColor("2) Выбрать объект\n", Console.ForegroundColor, Console.BackgroundColor);
+                ConsoleInteraction.DrawWithColor("2) Выбрать объект\n", Console.ForegroundColor, Console.BackgroundColor);
                 Console.WriteLine("3) Выйти");
             }
             else
@@ -49,6 +35,11 @@ namespace Pract2Var2KZ.MenuOfProgram
                 Console.WriteLine("2) Выбрать объект");
                 Console.WriteLine("3) Выйти");
             }
+        }
+
+        private void DrawObjectCreateMenu()
+        {
+            
         }
 
         private void DrawObjectInteractionMenu()
@@ -83,7 +74,7 @@ namespace Pract2Var2KZ.MenuOfProgram
             {
                 DrawFirstPage();
 
-                chooseMenu = Console.ReadKey().Key;
+                chooseMenu = ConsoleInteraction.ReadKey();
 
                 switch (chooseMenu)
                 {
