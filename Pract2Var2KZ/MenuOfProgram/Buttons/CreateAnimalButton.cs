@@ -36,7 +36,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Buttons
             string animal = Console.ReadLine();
 
             
-
+            // Заглушка мужик
             _petHouse.AddAnimal(AnimalCreator.CreateAnimal(animal, new Weight(5), CatBreed.Siamese, 12));
 
             return Status.ContinuationCycle;
@@ -48,9 +48,9 @@ namespace Pract2Var2KZ.MenuOfProgram.Buttons
 
             Console.WriteLine(Title);
 
-            foreach (var key in AnimalCreator.GetAnimalDictionary().Keys)
+            foreach (var key in _petHouse.GetAnimals().Keys)
             {
-                Console.WriteLine(key);
+                Console.WriteLine(key.ToString().Split('.').Last());
             }
 
 
