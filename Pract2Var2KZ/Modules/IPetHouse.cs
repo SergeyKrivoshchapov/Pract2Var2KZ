@@ -9,7 +9,7 @@ namespace Pract2Var2KZ.Modules
     public interface IPetHouse
     {
         void AddAnimal(Animal animal);
-        IReadOnlyList<Animal> GetAnimals();
+        IReadOnlyDictionary<Type, List<Animal>> GetAnimals();
         void RemoveAnimal(Animal animal);
 
     }

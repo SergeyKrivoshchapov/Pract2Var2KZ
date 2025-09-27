@@ -10,12 +10,6 @@ namespace ProgramByAnimal
     {
         static void Main(string[] args)
         {
-            //PetHouse house = new PetHouse();
-
-            //Menu menu = new Menu(house);
-
-            //menu.StartMenu();
-
             PetHouse house = new PetHouse();
 
             Console.CursorVisible = false;
@@ -24,7 +18,9 @@ namespace ProgramByAnimal
 
             CreateAnimalButton create = new CreateAnimalButton("Создание", house);
 
-            StartMenu startMenu = new StartMenu("Стартовое меню", null, new List<MenuComponent>() { create, exitButton });
+            ChooseAnimal choose = new ChooseAnimal("Выбрать животное", house);
+
+            StartMenu startMenu = new StartMenu("Стартовое меню", null, new List<MenuComponent>() { create, choose, exitButton });
 
             Status status = Status.ContinuationCycle;
 
