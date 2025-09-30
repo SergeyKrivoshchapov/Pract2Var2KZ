@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Pract2Var2KZ.Modules.Time;
+using Pract2Var2KZ.Options;
 
-namespace Pract2Var2KZ.Modules
+namespace Pract2Var2KZ.Modules.Entities
 {
     public abstract class Animal : IUpdating
     {
         public Weight Weight { get; protected set; }
         public string Breed { get; private set; }
         public int Age { get; private set; }
-        protected double HungerLevel { get; set; }
+        public double HungerLevel { get; protected set; }
         public abstract double MaxHunger { get; }
 
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Pract2Var2KZ.Modules;
+using Pract2Var2KZ.Modules.Entities;
 
 namespace Pract2Var2KZ.MenuOfProgram
 {

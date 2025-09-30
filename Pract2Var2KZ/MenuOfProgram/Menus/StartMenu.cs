@@ -35,7 +35,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
         public override void RemoveSubMenu(MenuComponent component)
         {
-            throw new NotImplementedException();
+            _subMenus.Remove(component);    
         }
 
         public override Status Interaction()
@@ -46,16 +46,23 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             {
                 Draw();
 
-                ConsoleKey consoleKey = ConsoleInteraction.ReadKey();
+                var input = Console.ReadLine();
 
-                int chooseElement;
-
-                if (consoleKey.TryParseToInt(out chooseElement))
+                if (int.TryParse(input, out int chooseElement))
                 {
-                    if (chooseElement < _subMenus.Count + 1 && chooseElement > 0)
+                    if (chooseElement <= _subMenus.Count + 1 && chooseElement > 0)
                     {
                         status = _subMenus[chooseElement - 1].Interaction();
                     }
+                    else
+                    {
+                        Console.WriteLine("Wrong choice");
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    Console.ReadKey();
                 }
             }
 
