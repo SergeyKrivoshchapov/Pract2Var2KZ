@@ -31,7 +31,7 @@ namespace ProgramByAnimal
 
             ExitButton exitButton = new ExitButton("Exit button");
 
-            CreateAnimalButton create = new CreateAnimalButton("Create animal", house, factoryCollection);
+            CreateAnimalMenu create = new CreateAnimalMenu("Create animal", house, factoryCollection);
 
             ChooseAnimal choose = new ChooseAnimal("Interact Animal", house, actionCollection);
 
