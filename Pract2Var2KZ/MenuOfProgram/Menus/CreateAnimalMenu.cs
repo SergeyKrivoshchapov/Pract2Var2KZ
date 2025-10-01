@@ -22,6 +22,19 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
         {
             _petHouse = petHouse;
             _factoryCollection = factoryCollection;
+        }
+
+        public override Status Interaction()
+        {
+            MenuDynamicUpdate();
+
+            base.Interaction();
+            return Status.ContinuationCycle;
+        }
+
+        private void MenuDynamicUpdate()
+        {
+            _subMenus.Clear();
 
             foreach (var type in _factoryCollection.GetAvaibleAnimalTypes().ToList())
             {
@@ -30,22 +43,6 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             }
 
             AddSubMenu(new ExitButton("Exit button"));
-        }
-
-        public override void AddSubMenu(MenuComponent component)
-        {
-            _subMenus.Add(component);
-        }
-
-        public override void RemoveSubMenu(MenuComponent component)
-        {
-            _subMenus.Remove(component);
-        }
-
-        public override Status Interaction()
-        {
-            base.Interaction();
-            return Status.ContinuationCycle;
         }
     }
 }

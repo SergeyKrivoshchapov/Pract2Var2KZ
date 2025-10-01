@@ -19,21 +19,28 @@ namespace Pract2Var2KZ.MenuOfProgram
         protected List<MenuComponent> _subMenus = [];
 
         public string Title { get; private set; }
+        protected string MoreMessage { get; set; } = string.Empty;
 
         protected MenuComponent(string title)
         {
             Title = title;
         }
 
-        public abstract void AddSubMenu(MenuComponent component);
+        public virtual void AddSubMenu(MenuComponent component)
+        {
+            _subMenus.Add(component);
+        }
 
-        public abstract void RemoveSubMenu(MenuComponent component);
+        public virtual void RemoveSubMenu(MenuComponent component)
+        {
+            _subMenus.Remove(component);
+        }
 
         public virtual Status Interaction()
         {
             if (_subMenus.Count == 0)
             {
-                throw new NotSupportedException();
+                throw new NotImplementedException();
             }
 
             Status status = Status.ContinuationCycle;
@@ -70,6 +77,8 @@ namespace Pract2Var2KZ.MenuOfProgram
             Console.Clear();
 
             Console.WriteLine(Title + ":");
+
+            if (MoreMessage != string.Empty) Console.WriteLine($"({MoreMessage})");
 
             for (int i = 0; i < _subMenus.Count; i++)
             {

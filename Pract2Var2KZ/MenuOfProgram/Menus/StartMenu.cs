@@ -25,15 +25,5 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             _petHouse = petHouse;
             _subMenus = subMenus;
         }
-
-        public override void AddSubMenu(MenuComponent component)
-        {
-            _subMenus.Add(component);
-        }
-
-        public override void RemoveSubMenu(MenuComponent component)
-        {
-            _subMenus.Remove(component);    
-        }
     }
 }
