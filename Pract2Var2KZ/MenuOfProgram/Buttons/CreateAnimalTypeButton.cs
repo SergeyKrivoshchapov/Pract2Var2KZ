@@ -1,6 +1,7 @@
 ﻿using Pract2Var2KZ.EntityFactories;
 using Pract2Var2KZ.EntityFactories.Collections;
 using Pract2Var2KZ.Modules;
+using Pract2Var2KZ.Modules.Entities;
 using Pract2Var2KZ.Options;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,21 @@ namespace Pract2Var2KZ.MenuOfProgram.Buttons
 
         public override Status Interaction()
         {
-            CollectCreationParameters();
+            var parameters = CollectCreationParameters();
+            if (parameters == null) return Status.ContinuationCycle;
+
+            try
+            {
+                var method = typeof(AnimalFactoryCollection).GetMethod("GetFactory").MakeGenericMethod(_animalType);
+                var factory = method.Invoke(_factoryCollection, null) as dynamic;
+                var animal = factory.CreateAnimal(parameters) as Animal;
+
+                _petHouse.AddAnimal(animal);
+            }
+            catch (Exception ex)
+            {
+
+            }
 
             return Status.ContinuationCycle;
         }
