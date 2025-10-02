@@ -1,5 +1,6 @@
 ﻿using Pract2Var2KZ.EntityFactories.AnimalActions;
 using Pract2Var2KZ.EntityFactories.Collections;
+using Pract2Var2KZ.Extensions.IntExtensions;
 using Pract2Var2KZ.MenuOfProgram.Buttons;
 using Pract2Var2KZ.Modules;
 using Pract2Var2KZ.Modules.Entities;
@@ -24,29 +25,53 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
         public override Status Interaction()
         {
-            _subMenus.Clear();
+            Status status = Status.ContinuationCycle;
 
-            foreach (var animalType in _petHouse.GetAnimals().Keys)
+            while (status != Status.EndCycle)
             {
-                foreach (var animal in _petHouse.GetAnimals()[animalType])
+                _subMenus.Clear();
+
+                foreach (var animalType in _petHouse.GetAnimals().Keys)
                 {
-                    AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {animal.HungerLevel} / {animal.MaxHunger}", 
-                        animal, _actionCollection));
+                    foreach (var animal in _petHouse.GetAnimals()[animalType])
+                    {
+                        AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {animal.HungerLevel} / {animal.MaxHunger}",
+                            animal, _actionCollection));
+                    }
+                }
+
+                AddSubMenu(new ExitButton("Back"));
+
+                if (CountAnimals() == 0 && MoreMessage == string.Empty)
+                {
+                    MoreMessage = "There are no animals in the nursery";
+                }
+                else if (CountAnimals() != 0 && MoreMessage != string.Empty)
+                {
+                    MoreMessage = string.Empty;
+                }
+
+                Draw();
+
+                var choose = ConsoleInteraction.ReadKey();
+                int chooseElement;
+
+                if (choose.TryParseToInt(out chooseElement))
+                {
+                    if (chooseElement <= _subMenus.Count && chooseElement > 0)
+                    {
+                        status = _subMenus[chooseElement - 1].Interaction();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
                 }
             }
-
-            AddSubMenu(new ExitButton("Back"));
-
-            if (CountAnimals() == 0 && MoreMessage == string.Empty)
-            {
-                MoreMessage = "There are no animals in the nursery";
-            }
-            else if (MoreMessage != string.Empty)
-            {
-                MoreMessage = string.Empty;
-            }
-
-            base.Interaction();
 
             return Status.ContinuationCycle;
         }

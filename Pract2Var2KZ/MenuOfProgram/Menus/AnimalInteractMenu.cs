@@ -1,5 +1,6 @@
 ﻿using Pract2Var2KZ.EntityFactories.AnimalActions;
 using Pract2Var2KZ.EntityFactories.Collections;
+using Pract2Var2KZ.Extensions.IntExtensions;
 using Pract2Var2KZ.MenuOfProgram.Buttons;
 using Pract2Var2KZ.Modules.Entities;
 using System;
@@ -36,14 +37,45 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             {
                 MoreMessage = "No available actions";
             }
-            else if (MoreMessage != string.Empty)
+            else if (_actions.Count != 0 && MoreMessage != string.Empty)
             {
                 MoreMessage = string.Empty;
             }
 
-            base.Interaction();
+            Status status = Status.ContinuationCycle;
+
+            while (status != Status.EndCycle)
+            {
+                TitleUpdate();
+
+                Draw();
+
+                var choose = ConsoleInteraction.ReadKey();
+                int chooseElement;
+
+                if (choose.TryParseToInt(out chooseElement))
+                {
+                    if (chooseElement <= _subMenus.Count && chooseElement > 0)
+                    {
+                        status = _subMenus[chooseElement - 1].Interaction();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
 
             return Status.ContinuationCycle;
+        }
+
+        public void TitleUpdate()
+        {
+            Title = $"{_animal.GetType().Name} - {_animal.Breed}, {_animal.Age} yo, {_animal.Weight}, {_animal.HungerLevel} / {_animal.MaxHunger}";
         }
     }
 }

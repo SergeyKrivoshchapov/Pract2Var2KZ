@@ -18,7 +18,14 @@ namespace Pract2Var2KZ.MenuOfProgram
     {
         protected List<MenuComponent> _subMenus = [];
 
-        public string Title { get; private set; }
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            protected set { _title = value; }
+        }
+
         protected string MoreMessage { get; set; } = string.Empty;
 
         protected MenuComponent(string title)
@@ -54,7 +61,7 @@ namespace Pract2Var2KZ.MenuOfProgram
 
                 if (choose.TryParseToInt(out chooseElement))
                 {
-                    if (chooseElement <= _subMenus.Count + 1 && chooseElement > 0)
+                    if (chooseElement <= _subMenus.Count && chooseElement > 0)
                     {
                         status = _subMenus[chooseElement - 1].Interaction();
                     }
