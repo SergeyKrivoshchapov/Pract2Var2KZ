@@ -33,7 +33,7 @@ namespace ProgramByAnimal
 
             CreateAnimalMenu create = new CreateAnimalMenu("Create animal", house, factoryCollection);
 
-            ChooseAnimalMenu choose = new ChooseAnimalMenu("Interact Animal", house, actionCollection);
+            ChooseAnimalMenu choose = new ChooseAnimalMenu("Interact Animal", house, actionCollection, 500);
 
             StartMenu startMenu = new StartMenu("Main menu", house);
 

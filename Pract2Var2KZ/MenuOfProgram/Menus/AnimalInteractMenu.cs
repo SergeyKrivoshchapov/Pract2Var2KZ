@@ -15,11 +15,13 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
     {
         private Animal _animal;
         private List<IAnimalAction> _actions;
+        private int _updateTime;
 
-        public AnimalInteractMenu(string title, Animal animal, AnimalActionCollection actionCollection) : base(title)
+        public AnimalInteractMenu(string title, Animal animal, AnimalActionCollection actionCollection, int updateTime) : base(title)
         {
             _animal = animal;
             _actions = actionCollection.GetAnimalActions(animal).Where(a => a.CanExecute(animal)).ToList();
+            _updateTime = updateTime;
         }
 
         public override Status Interaction()
@@ -50,24 +52,29 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
                 Draw();
 
-                var choose = ConsoleInteraction.ReadKey();
-                int chooseElement;
-
-                if (choose.TryParseToInt(out chooseElement))
+                if (Console.KeyAvailable)
                 {
-                    if (chooseElement <= _subMenus.Count && chooseElement > 0)
+                    var choose = ConsoleInteraction.ReadKey(true);
+                    int chooseElement;
+
+                    if (choose.TryParseToInt(out chooseElement))
                     {
-                        status = _subMenus[chooseElement - 1].Interaction();
+                        if (chooseElement <= _subMenus.Count && chooseElement > 0)
+                        {
+                            status = _subMenus[chooseElement - 1].Interaction();
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
                     else
                     {
                         continue;
                     }
                 }
-                else
-                {
-                    continue;
-                }
+
+                Thread.Sleep(_updateTime);
             }
 
             return Status.ContinuationCycle;

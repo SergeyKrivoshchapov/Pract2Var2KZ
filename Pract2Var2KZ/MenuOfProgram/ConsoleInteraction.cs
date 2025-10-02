@@ -34,5 +34,18 @@ namespace Pract2Var2KZ.MenuOfProgram
 
             return key;
         }
+
+        static public ConsoleKey ReadKey(bool intercept)
+        {
+            ConsoleColor origintTextColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = Console.BackgroundColor;
+
+            ConsoleKey key = Console.ReadKey(intercept).Key;
+
+            Console.ForegroundColor = origintTextColor;
+
+            return key;
+        }
     }
 }

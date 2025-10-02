@@ -7,6 +7,7 @@ using Pract2Var2KZ.Modules.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,11 +17,13 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
     {
         private readonly IPetHouse _petHouse;
         private readonly AnimalActionCollection _actionCollection;
+        private int _updateTime;
 
-        public ChooseAnimalMenu(string title, IPetHouse petHouse, AnimalActionCollection actionCollection) : base(title)
+        public ChooseAnimalMenu(string title, IPetHouse petHouse, AnimalActionCollection actionCollection, int updateTime) : base(title)
         {
             _petHouse = petHouse;
             _actionCollection = actionCollection;
+            _updateTime = updateTime;
         }
 
         public override Status Interaction()
@@ -36,7 +39,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                     foreach (var animal in _petHouse.GetAnimals()[animalType])
                     {
                         AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {animal.HungerLevel} / {animal.MaxHunger}",
-                            animal, _actionCollection));
+                            animal, _actionCollection, _updateTime));
                     }
                 }
 
@@ -51,23 +54,47 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                     MoreMessage = string.Empty;
                 }
 
-                Draw();
+                Status statusFlag = Status.EndCycle;
 
-                var choose = ConsoleInteraction.ReadKey();
-                int chooseElement;
-
-                if (choose.TryParseToInt(out chooseElement))
+                while (status != Status.EndCycle)
                 {
-                    if (chooseElement <= _subMenus.Count && chooseElement > 0)
+                    Draw();
+
+                    foreach (var subMenu in _subMenus)
                     {
-                        status = _subMenus[chooseElement - 1].Interaction();
+                        if (subMenu is AnimalInteractMenu animalSubMenu)
+                        {
+                            animalSubMenu.TitleUpdate();
+                        }
                     }
-                    else
+
+                    if (Console.KeyAvailable)
                     {
-                        continue;
+                        var choose = ConsoleInteraction.ReadKey(true);
+
+                        int chooseElement;
+
+                        if (choose.TryParseToInt(out chooseElement))
+                        {
+                            if (chooseElement <= _subMenus.Count && chooseElement > 0)
+                            {
+                                status = _subMenus[chooseElement - 1].Interaction();
+                            }
+                            else
+                            {
+                                statusFlag = Status.ContinuationCycle;
+                            }
+                        }
+                        else
+                        {
+                            statusFlag = Status.ContinuationCycle;
+                        }
                     }
+
+                    Thread.Sleep(_updateTime);
                 }
-                else
+                    
+                if (statusFlag == Status.ContinuationCycle)
                 {
                     continue;
                 }
