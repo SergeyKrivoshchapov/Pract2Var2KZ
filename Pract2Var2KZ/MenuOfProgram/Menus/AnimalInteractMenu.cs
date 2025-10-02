@@ -26,6 +26,8 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
         public override Status Interaction()
         {
+            Console.Clear();
+
             _subMenus.Clear();
 
             foreach (var action in _actions)
@@ -61,6 +63,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                     {
                         if (chooseElement <= _subMenus.Count && chooseElement > 0)
                         {
+                            Console.Clear();
                             status = _subMenus[chooseElement - 1].Interaction();
                         }
                         else
@@ -83,6 +86,20 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
         public void TitleUpdate()
         {
             Title = $"{_animal.GetType().Name} - {_animal.Breed}, {_animal.Age} yo, {_animal.Weight}, {_animal.HungerLevel} / {_animal.MaxHunger}";
+        }
+
+        protected override void Draw()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            Console.WriteLine(Title + ":");
+
+            if (MoreMessage != string.Empty) Console.WriteLine($"({MoreMessage})");
+
+            for (int i = 0; i < _subMenus.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {_subMenus[i].Title}");
+            }
         }
     }
 }

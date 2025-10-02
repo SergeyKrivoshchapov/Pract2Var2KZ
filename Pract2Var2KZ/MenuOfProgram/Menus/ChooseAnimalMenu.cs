@@ -30,8 +30,11 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
         {
             Status status = Status.ContinuationCycle;
 
+
             while (status != Status.EndCycle)
             {
+                Console.Clear();
+
                 _subMenus.Clear();
 
                 foreach (var animalType in _petHouse.GetAnimals().Keys)
@@ -79,6 +82,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                             if (chooseElement <= _subMenus.Count && chooseElement > 0)
                             {
                                 status = _subMenus[chooseElement - 1].Interaction();
+                                Console.Clear();
                             }
                             else
                             {
@@ -113,6 +117,20 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             }
 
             return count;
+        }
+
+        protected override void Draw()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            Console.WriteLine(Title + ":");
+
+            if (MoreMessage != string.Empty) Console.WriteLine($"({MoreMessage})");
+
+            for (int i = 0; i < _subMenus.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {_subMenus[i].Title}");
+            }
         }
     }
 }
