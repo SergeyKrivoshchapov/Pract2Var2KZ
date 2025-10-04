@@ -14,22 +14,22 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
     class AnimalInteractMenu : MenuComponent
     {
         private Animal _animal;
+        private AnimalActionCollection _actionCollection;
         private List<IAnimalAction> _actions;
         private int _updateTime;
 
         public AnimalInteractMenu(string title, Animal animal, AnimalActionCollection actionCollection, int updateTime) : base(title)
         {
             _animal = animal;
-            _actions = actionCollection.GetAnimalActions(animal).Where(a => a.CanExecute(animal)).ToList();
+            _actionCollection = actionCollection;
             _updateTime = updateTime;
 
-            AddSubMenu(new ExitButton("Exit button"),
-                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
+            UpdateActions();
         }
 
-        public override Status Interaction()
+        private void UpdateActions()
         {
-            Console.Clear();
+            _actions = _actionCollection.GetAnimalActions(_animal).Where(a => a.CanExecute(_animal)).ToList();
 
             _numeralsSubMenus.Clear();
 
@@ -47,10 +47,22 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 MoreMessage = string.Empty;
             }
 
+            if (!_keySubMenus.Any(kv => kv.Value is ExitButton))
+            {
+                AddSubMenu(new ExitButton("Exit button"),
+                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
+            }
+        }
+
+        public override Status Interaction()
+        {
+            Console.Clear();
+
             Status status = Status.ContinuationCycle;
 
             while (status != Status.EndCycle)
             {
+                UpdateActions();
                 TitleUpdate();
 
                 Draw();
@@ -58,6 +70,12 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 if (Console.KeyAvailable)
                 {
                     status = ChooseMenuElement();
+
+                    if (status == Status.ContinuationCycle)
+                    {
+                        UpdateActions();
+                        TitleUpdate();
+                    }
                 }
 
                 Thread.Sleep(_updateTime);

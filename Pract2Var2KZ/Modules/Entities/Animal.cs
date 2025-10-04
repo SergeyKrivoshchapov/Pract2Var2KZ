@@ -12,15 +12,24 @@ namespace Pract2Var2KZ.Modules.Entities
     public abstract class Animal : IUpdating
     {
         public Weight Weight { get; protected set; }
+        protected Weight InitialWeight { get; private set; }
         public string Breed { get; private set; }
-        public int Age { get; private set; }
+        private int _age;
+        public int Age
+        {
+            get { return _age; }
+            private set 
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
+                _age = value;
+            }
+        }
         public double HungerLevel { get; protected set; }
         public abstract double MaxHunger { get; }
 
-
         protected Animal(Weight weight, string breed, int age)
         {
-            Weight = weight;
+            InitialWeight = Weight = weight;
             Breed = breed;
             Age = age; 
             HungerLevel = MaxHunger;
@@ -52,6 +61,11 @@ namespace Pract2Var2KZ.Modules.Entities
         }
     
         public abstract void Eat();
+
+        public bool CanEat()
+        {
+            return (HungerLevel / MaxHunger) < Constants.MaxPossibleFeedingLevel && Weight.Weight_kg < InitialWeight.Weight_kg * 2;
+        }
     
     }
 }

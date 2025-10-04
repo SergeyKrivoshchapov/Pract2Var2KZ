@@ -11,6 +11,7 @@ namespace Pract2Var2KZ.Modules.Entities
     public class Cat : Animal
     {
         public override double MaxHunger => Constants.AdultMaxHunger;
+        protected DateTime? PlayBlockedUntil { get; private set; }
 
         public Cat (Weight weight, CatBreed breed, int age) : base(weight, breed.ToString(), age)
         {
@@ -21,7 +22,16 @@ namespace Pract2Var2KZ.Modules.Entities
             double append = Weight.Weight_kg * Constants.CatWeightGainPercent;
             Weight = new Weight(Weight.Weight_kg + append);
             HungerLevel = Math.Min(MaxHunger, HungerLevel + Constants.CatHungerIncreasePerFeed);
-            // needs adding upper limit!!!! Kitten both
+        }
+
+        public bool IsPlayBlocked()
+        {
+            return PlayBlockedUntil.HasValue && DateTime.Now < PlayBlockedUntil.Value;
+        }
+
+        public bool CanPlay()
+        {
+            return (Weight.Weight_kg / InitialWeight.Weight_kg >= Constants.MinWeightPercentForPlay) && (HungerLevel / MaxHunger > Constants.MinHungerPercentForPlay) && !IsPlayBlocked();
         }
 
         public virtual void Play()
@@ -29,13 +39,18 @@ namespace Pract2Var2KZ.Modules.Entities
             double loss = Weight.Weight_kg * Constants.CatWeightLossPercent;
             Weight = new Weight(Weight.Weight_kg - loss);
             HungerLevel = Math.Max(0, HungerLevel - Constants.CatHungerDecreasePerPlay);
-            // needs adding lower limit!!!! Kitten both
         }
 
-        public static void GiveAngrylLook()
+        protected void BlockPlayFor(TimeSpan duration)
         {
-            // realise
+            PlayBlockedUntil = DateTime.Now.Add(duration);
         }
 
+        internal virtual void GiveAngryLook()
+        {
+            Console.WriteLine($"Cat looks angry. He cant play next {Constants.CatAngryLookBlockDuration} seconds");
+            BlockPlayFor(TimeSpan.FromSeconds(Constants.CatAngryLookBlockDuration));
+            Console.ReadLine();
+        }
     }
 }

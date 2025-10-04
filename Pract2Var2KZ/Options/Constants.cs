@@ -34,7 +34,17 @@ namespace Pract2Var2KZ.Options
         public const double HungerLoseLevel = 0.5;
         public const double HungerWeightLosePercent = 0.02;
 
-        public const double HungerDecreaseUpdate = 2;
+        public const double HungerDecreaseUpdate = 2.0;
         public const int KittenHighestAge = 3;
+
+        // мин соотношение веса, сытости для возможности играть
+        public const double MinWeightPercentForPlay = 0.5;
+        public const double MinHungerPercentForPlay = 0.25;
+
+        public const double MaxPossibleFeedingLevel = 1.0;
+
+        // длительность блокировки возможности играть после вброса осуждающего взгляда
+        public const int CatAngryLookBlockDuration = 15;
+        public const int KittenAngryLookBlockDuration = 10;
     }
 }

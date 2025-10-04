@@ -30,5 +30,12 @@ namespace Pract2Var2KZ.Modules.Entities
             Weight = new Weight(Weight.Weight_kg - loss);
             HungerLevel = Math.Max(0, HungerLevel - Constants.KittenHungerDecreasePerPlay);
         }
+
+        internal override void GiveAngryLook()
+        {
+            Console.WriteLine($"Kitten looks angry. He cant play next {Constants.KittenAngryLookBlockDuration} seconds");
+            BlockPlayFor(TimeSpan.FromSeconds(Constants.CatAngryLookBlockDuration));
+            Console.ReadLine();
+        }
     }
 }
