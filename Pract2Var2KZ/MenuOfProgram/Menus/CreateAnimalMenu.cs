@@ -22,6 +22,9 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
         {
             _petHouse = petHouse;
             _factoryCollection = factoryCollection;
+
+            AddSubMenu(new ExitButton("Exit button"), 
+                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
         }
 
         public override Status Interaction()
@@ -34,15 +37,13 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
         private void MenuDynamicUpdate()
         {
-            _subMenus.Clear();
+            _numeralsSubMenus.Clear();
 
             foreach (var type in _factoryCollection.GetAvaibleAnimalTypes().ToList())
             {
                 AddSubMenu(new CreateAnimalTypeButton(type.Name,
                     _petHouse, _factoryCollection, type));
             }
-
-            AddSubMenu(new ExitButton("Exit button"));
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
         public StartMenu(string title, IPetHouse petHouse, List<MenuComponent> subMenus) : base(title)
         {
             _petHouse = petHouse;
-            _subMenus = subMenus;
+            _numeralsSubMenus = subMenus;
         }
     }
 }

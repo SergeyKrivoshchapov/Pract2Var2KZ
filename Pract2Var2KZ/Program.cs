@@ -39,7 +39,7 @@ namespace ProgramByAnimal
 
             startMenu.AddSubMenu(create);
             startMenu.AddSubMenu(choose);
-            startMenu.AddSubMenu(exitButton);
+            startMenu.AddSubMenu(exitButton, new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
             startMenu.Interaction();
             Console.Clear();
 

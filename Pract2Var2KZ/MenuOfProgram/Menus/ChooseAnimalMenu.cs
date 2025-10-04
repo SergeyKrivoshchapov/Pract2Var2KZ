@@ -24,6 +24,9 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             _petHouse = petHouse;
             _actionCollection = actionCollection;
             _updateTime = updateTime;
+
+            AddSubMenu(new ExitButton("Exit button"),
+                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
         }
 
         public override Status Interaction()
@@ -35,18 +38,16 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             {
                 Console.Clear();
 
-                _subMenus.Clear();
+                _numeralsSubMenus.Clear();
 
                 foreach (var animalType in _petHouse.GetAnimals().Keys)
                 {
                     foreach (var animal in _petHouse.GetAnimals()[animalType])
                     {
-                        AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {animal.HungerLevel} / {animal.MaxHunger}",
+                        AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {(int)animal.HungerLevel} / {(int)animal.MaxHunger}",
                             animal, _actionCollection, _updateTime));
                     }
                 }
-
-                AddSubMenu(new ExitButton("Back"));
 
                 if (CountAnimals() == 0 && MoreMessage == string.Empty)
                 {
@@ -63,7 +64,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 {
                     Draw();
 
-                    foreach (var subMenu in _subMenus)
+                    foreach (var subMenu in _numeralsSubMenus)
                     {
                         if (subMenu is AnimalInteractMenu animalSubMenu)
                         {
@@ -73,27 +74,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
                     if (Console.KeyAvailable)
                     {
-                        var choose = ConsoleInteraction.ReadKey(true);
-
-                        int chooseElement;
-
-                        if (choose.TryParseToInt(out chooseElement))
-                        {
-                            if (chooseElement <= _subMenus.Count && chooseElement > 0)
-                            {
-                                status = _subMenus[chooseElement - 1].Interaction();
-                                Console.Clear();
-                            }
-                            else
-                            {
-                                statusFlag = Status.ContinuationCycle;
-                            }
-                        }
-                        else
-                        {
-                            statusFlag = Status.ContinuationCycle;
-                        }
-                    }
+                        status = ChooseMenuElement();                    }
 
                     Thread.Sleep(_updateTime);
                 }
@@ -119,18 +100,19 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             return count;
         }
 
-        protected override void Draw()
+        protected override void DrawButtonInfo()
         {
-            Console.SetCursorPosition(0, 0);
+            DrawNumeralsButtonInfo();
 
-            Console.WriteLine(Title + ":");
-
-            if (MoreMessage != string.Empty) Console.WriteLine($"({MoreMessage})");
-
-            for (int i = 0; i < _subMenus.Count; i++)
+            if (pagesMenu.GetCurrentPageSize() < pagesMenu.PageSize && pagesMenu.GetCurrentPageSize() != _numeralsSubMenus.Count)
             {
-                Console.WriteLine($"{i + 1}) {_subMenus[i].Title}");
+                for (int i = 0; i <  pagesMenu.PageSize - pagesMenu.GetCurrentPageSize(); i++)
+                {
+                    Console.WriteLine();
+                }
             }
+
+            DrawKeysButtonInfo();
         }
     }
 }

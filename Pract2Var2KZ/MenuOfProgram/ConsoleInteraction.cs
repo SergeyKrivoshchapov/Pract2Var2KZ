@@ -22,26 +22,26 @@ namespace Pract2Var2KZ.MenuOfProgram
             Console.ForegroundColor = origintTextColor;
         }
 
-        static public ConsoleKey ReadKey()
+        static public ConsoleKeyInfo ReadKey()
         {
             ConsoleColor origintTextColor = Console.ForegroundColor;
 
             Console.ForegroundColor = Console.BackgroundColor;
 
-            ConsoleKey key = Console.ReadKey().Key;
+            ConsoleKeyInfo key = Console.ReadKey();
 
             Console.ForegroundColor = origintTextColor;
 
             return key;
         }
 
-        static public ConsoleKey ReadKey(bool intercept)
+        static public ConsoleKeyInfo ReadKey(bool intercept)
         {
             ConsoleColor origintTextColor = Console.ForegroundColor;
 
             Console.ForegroundColor = Console.BackgroundColor;
 
-            ConsoleKey key = Console.ReadKey(intercept).Key;
+            ConsoleKeyInfo key = Console.ReadKey(intercept);
 
             Console.ForegroundColor = origintTextColor;
 
