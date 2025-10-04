@@ -8,29 +8,29 @@ namespace Pract2Var2KZ.Options
 {
     public static class Constants
     {
-        // Макс ур сытости
+        // макс ур сытости
         public const int AdultMaxHunger = 200;
         public const int KittenMaxHunger = 100;
 
-        // Потеря веса игра 
+        // потеря веса игра 
         public const double CatWeightLossPercent = 0.02;
         public const double KittenWeightLossPercent = 0.01;
 
-        // Набор веса 
+        // набор веса 
         public const double CatWeightGainPercent = 0.04;
         public const double KittenWeightGainPercent = 0.02;
 
-        // Уменьшение сытости / игра
+        // уменьшение сытости / игра
         public const double PlayCoef = 0.1;
         public const double CatHungerDecreasePerPlay = AdultMaxHunger * PlayCoef;
         public const double KittenHungerDecreasePerPlay =KittenMaxHunger * PlayCoef;
             
-        // Увеличение сытости / кормыч
+        // увеличение сытости / кормыч
         public const double FeedCoef = 0.2;
         public const double CatHungerIncreasePerFeed = AdultMaxHunger * FeedCoef;
         public const double KittenHungerIncreasePerFeed = KittenMaxHunger * FeedCoef;
 
-        // Уровень сытости - начало потери веса
+        // уровень сытости - начало потери веса
         public const double HungerLoseLevel = 0.5;
         public const double HungerWeightLosePercent = 0.02;
 
