@@ -1,3 +1,4 @@
+using Pract2Var2KZ;
 using Pract2Var2KZ.EntityFactories.AnimalActions;
 using Pract2Var2KZ.EntityFactories.CatFactory;
 using Pract2Var2KZ.EntityFactories.Collections;
@@ -15,36 +16,9 @@ namespace ProgramByAnimal
     {
         static void Main(string[] args)
         {
-            var factoryCollection = new AnimalFactoryCollection();
-            var actionCollection = new AnimalActionCollection();
+            MainMenu mainMenu = new MainMenu();
 
-            factoryCollection.RegisterFactory<Cat>(new CatFactory());
-
-            actionCollection.RegisterAction<Animal>(new EatAction());
-            actionCollection.RegisterAction<Cat>(new PlayAction());
-            actionCollection.RegisterAction<Cat>(new GiveAngryLookAction());
-
-
-            PetHouse house = new PetHouse();
-
-            Console.CursorVisible = false;
-
-            ExitButton exitButton = new ExitButton("Exit button");
-
-            CreateAnimalMenu create = new CreateAnimalMenu("Create animal", house, factoryCollection);
-
-            ChooseAnimalMenu choose = new ChooseAnimalMenu("Interact Animal", house, actionCollection, 50);
-
-            StartMenu startMenu = new StartMenu("Main menu", house);
-
-            startMenu.AddSubMenu(create);
-            startMenu.AddSubMenu(choose);
-            startMenu.AddSubMenu(exitButton, new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
-            startMenu.Interaction();
-            Console.Clear();
-
-            Console.WriteLine("bye");
-                
+            mainMenu.Start();
         }
     }
 }

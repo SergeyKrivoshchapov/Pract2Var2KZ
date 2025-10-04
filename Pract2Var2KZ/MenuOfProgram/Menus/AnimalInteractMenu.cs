@@ -63,6 +63,8 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 Thread.Sleep(_updateTime);
             }
 
+            Console.Clear();
+
             return Status.ContinuationCycle;
         }
 

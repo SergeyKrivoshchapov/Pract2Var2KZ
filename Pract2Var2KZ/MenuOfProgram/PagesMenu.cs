@@ -21,7 +21,9 @@ namespace Pract2Var2KZ.MenuOfProgram
             get { return _currentPage; }
             set {
                 ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value, "CurrentPage");
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, _menuComponents.Count / _pageSize + 1, "CurrentPage");
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, _menuComponents.Count / _pageSize != 0 ?
+                    _menuComponents.Count / _pageSize + (_menuComponents.Count % _pageSize == 0 ? 0 : 1) 
+                    : 1, "CurrentPage");
                 _currentPage = value;
             }
         }
@@ -31,7 +33,7 @@ namespace Pract2Var2KZ.MenuOfProgram
         {
             _menuComponents = menuComponents;
             _pageSize = pageSize;
-            _currentPage = 1;
+            CurrentPage = 1;
         }
 
         public List<MenuComponent> GetCurrentPageComponents()
