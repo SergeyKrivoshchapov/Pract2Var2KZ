@@ -29,7 +29,7 @@ namespace Pract2Var2KZ.Options
 
         public override string ToString()
         {
-            return $"{Weight_kg} kg";
+            return $"{Weight_kg:F2} kg";
         }
     }
 }

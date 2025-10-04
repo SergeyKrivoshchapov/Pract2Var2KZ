@@ -31,15 +31,15 @@ namespace ProgramByAnimal
 
             ExitButton exitButton = new ExitButton("Exit button");
 
-            CreateAnimalButton create = new CreateAnimalButton("Create animal", house, factoryCollection);
+            CreateAnimalMenu create = new CreateAnimalMenu("Create animal", house, factoryCollection);
 
-            ChooseAnimal choose = new ChooseAnimal("Interact Animal", house, actionCollection);
+            ChooseAnimalMenu choose = new ChooseAnimalMenu("Interact Animal", house, actionCollection, 50);
 
             StartMenu startMenu = new StartMenu("Main menu", house);
 
             startMenu.AddSubMenu(create);
             startMenu.AddSubMenu(choose);
-            startMenu.AddSubMenu(exitButton);
+            startMenu.AddSubMenu(exitButton, new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
             startMenu.Interaction();
             Console.Clear();
 
