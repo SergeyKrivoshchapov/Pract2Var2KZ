@@ -24,6 +24,9 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             _actionCollection = actionCollection;
             _updateTime = updateTime;
 
+            AddSubMenu(new ExitButton("Exit button"),
+                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
+
             UpdateActions();
         }
 
@@ -46,12 +49,6 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             {
                 MoreMessage = string.Empty;
             }
-
-            if (!_keySubMenus.Any(kv => kv.Value is ExitButton))
-            {
-                AddSubMenu(new ExitButton("Exit button"),
-                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
-            }
         }
 
         public override Status Interaction()
@@ -71,6 +68,8 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 {
                     status = ChooseMenuElement();
 
+                    Console.Clear();
+
                     if (status == Status.ContinuationCycle)
                     {
                         UpdateActions();
@@ -88,7 +87,9 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
         public void TitleUpdate()
         {
-            Title = $"{_animal.GetType().Name} - {_animal.Breed}, {_animal.Age} yo, {_animal.Weight}, {_animal.HungerLevel} / {_animal.MaxHunger}";
+            Title = $"{_animal.GetType().Name} - {_animal.Breed}, {_animal.Age} yo, {_animal.Weight}, " +
+                $"{((int)(_animal.HungerLevel)).ToString().PadLeft(((int)_animal.MaxHunger).ToString().Length)} " +
+                $"/ {(int)_animal.MaxHunger}";
         }
     }
 }
