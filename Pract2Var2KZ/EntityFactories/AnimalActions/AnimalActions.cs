@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Pract2Var2KZ.EntityFactories.Collections;
+using Pract2Var2KZ.Modules;
 using Pract2Var2KZ.Modules.Entities;
+using Pract2Var2KZ.Options;
 
 namespace Pract2Var2KZ.EntityFactories.AnimalActions
 {
@@ -30,5 +32,51 @@ namespace Pract2Var2KZ.EntityFactories.AnimalActions
         public bool CanExecute(Animal animal) { return animal is Cat cat && !cat.IsPlayBlocked(); }
         public void Execute(Cat cat) => cat.GiveAngryLook();
         void IAnimalAction.Execute(Animal animal) => Execute((Cat)animal);
+    }
+
+    
+    public class CreateCopyAction : IAnimalAction<Animal>
+    {
+        private readonly IPetHouse _petHouse;
+        private readonly AnimalFactoryCollection _factoryCollection;
+
+        public CreateCopyAction(IPetHouse petHouse, AnimalFactoryCollection factoryCollection)
+        {
+            _petHouse = petHouse;
+            _factoryCollection = factoryCollection;
+        }
+
+        public string Name => "Create Copy";
+
+        public bool CanExecute(Animal animal)
+        {
+            return animal != null;
+        }
+
+        public void Execute(Animal animal) 
+        {
+            try
+            {
+                var parameters = new CreationParameters();
+                parameters.AddParameter("Weight", animal.Weight);
+                parameters.AddParameter("Age", animal.Age);
+
+                if (animal is Cat cat)
+                {
+                    var breed = Enum.Parse<CatBreed>(cat.Breed);
+                    parameters.AddParameter("Breed", breed);
+
+                    var factory = _factoryCollection.GetFactoryForCopy(typeof(Cat));
+                    var copy = factory.CreateAnimal(parameters);
+
+                    _petHouse.AddAnimal(copy);
+                }
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+        }
+
+
+
+        void IAnimalAction.Execute(Animal animal) => Execute(animal);
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Pract2Var2KZ.Modules.Time;
 using Pract2Var2KZ.Options;
+using System.Net.WebSockets;
 
 namespace Pract2Var2KZ.Modules.Entities
 {
@@ -26,17 +27,56 @@ namespace Pract2Var2KZ.Modules.Entities
         }
         public double HungerLevel { get; protected set; }
         public abstract double MaxHunger { get; }
+        private static int _idCounter = 0;
+        private int _id;
+        public int Id { get; private set; }
 
         protected Animal(Weight weight, string breed, int age)
         {
+            _id = ++_idCounter;
+            Id = _id;
             InitialWeight = Weight = weight;
             Breed = breed;
             Age = age; 
             HungerLevel = MaxHunger;
 
-            if (age < 0) throw new ArgumentException("Negative age");
+            UpdateManager.Register(this);
+        }
+
+        protected Animal(Animal other)
+        {
+            _id = ++_idCounter;
+            Id = _id;
+            InitialWeight = other.Weight;
+            Breed = other.Breed;
+            Age = other.Age;
+            HungerLevel = other.HungerLevel;
 
             UpdateManager.Register(this);
+        }
+        
+
+        public void Assign(Animal other)
+        {
+            if (this.GetType() != other.GetType())
+            {
+                throw new InvalidOperationException("Cant assign different type");
+            }
+
+            Weight = other.Weight;
+            Breed = other.Breed;
+            Age= other.Age;
+            HungerLevel = other.HungerLevel;
+        }
+
+
+        public static Animal operator +(Animal animal, double kg)
+        {
+            if (kg < 0) return animal;
+            var newWeight = new Weight(animal.Weight.Weight_kg + kg);
+            animal.Weight = newWeight;
+
+            return animal;
         }
 
         public virtual void Update()
@@ -56,7 +96,7 @@ namespace Pract2Var2KZ.Modules.Entities
             if (HungerLevel < MaxHunger * Constants.HungerLoseLevel)
             {
                 double weight_loss = Weight.Weight_kg * Constants.HungerWeightLosePercent;
-                Weight = new Weight(Weight.Weight_kg - weight_loss);
+                _= this + ( - weight_loss);
             }
         }
     
@@ -66,6 +106,10 @@ namespace Pract2Var2KZ.Modules.Entities
         {
             return (HungerLevel / MaxHunger) < Constants.MaxPossibleFeedingLevel && Weight.Weight_kg < InitialWeight.Weight_kg * 2;
         }
-    
+
+        public override string ToString()
+        {
+            return $"{GetType().Name} {Id} - {Breed}, {Age} yo, {Weight}, {HungerLevel} / {MaxHunger}";
+        }
     }
 }

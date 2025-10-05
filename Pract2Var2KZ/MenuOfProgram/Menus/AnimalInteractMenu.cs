@@ -88,7 +88,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
         public void TitleUpdate()
         {
-            Title = $"{_animal.GetType().Name} - {_animal.Breed}, {_animal.Age} yo, {_animal.Weight}, {_animal.HungerLevel} / {_animal.MaxHunger}";
+            Title = _animal.ToString();
         }
     }
 }

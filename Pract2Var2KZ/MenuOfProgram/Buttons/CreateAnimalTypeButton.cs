@@ -50,7 +50,8 @@ namespace Pract2Var2KZ.MenuOfProgram.Buttons
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
+                Console.ReadKey();
             }
 
             return Status.ContinuationCycle;

@@ -25,6 +25,7 @@ namespace Pract2Var2KZ.EntityFactories.CatFactory
             var breed = parameters.GetParameter<CatBreed>("Breed");
             var age = parameters.GetParameter<int>("Age");
 
+
             return age < Constants.KittenHighestAge ? new Kitten(weight, breed, age) : new Cat(weight, breed, age);
         }
     }

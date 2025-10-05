@@ -22,5 +22,13 @@ namespace Pract2Var2KZ.EntityFactories.Collections
         public IEnumerable<Type> GetAvaibleAnimalTypes() => _factories.Keys;
 
         public bool CanCreateAnimal(Type animalType) => _factories.ContainsKey(animalType);
+
+        public dynamic GetFactoryForCopy(Type animalType)
+        {
+            var method = typeof(AnimalFactoryCollection).GetMethod("GetFactory").MakeGenericMethod(animalType);
+            return method.Invoke(this, null);
+        }
+        
+        
     }
 }

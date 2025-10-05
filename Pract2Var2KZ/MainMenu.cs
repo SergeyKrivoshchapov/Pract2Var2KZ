@@ -39,6 +39,7 @@ namespace Pract2Var2KZ
             actionCollection.RegisterAction<Animal>(new EatAction());
             actionCollection.RegisterAction<Cat>(new PlayAction());
             actionCollection.RegisterAction<Cat>(new GiveAngryLookAction());
+            actionCollection.RegisterAction<Animal>(new CreateCopyAction(house, factoryCollection));
 
             Console.CursorVisible = false;
 
