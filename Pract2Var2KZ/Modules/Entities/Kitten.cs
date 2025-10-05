@@ -11,6 +11,9 @@ namespace Pract2Var2KZ.Modules.Entities
 {
     public class Kitten : Cat
     {
+        protected override double MinWeight => Constants.KittenMinWeight;
+        protected override double MaxWeight => Constants.KittenMaxWeight;
+        protected override int MaxAge => Constants.KittenHighestAge;
         public override double MaxHunger => Constants.KittenMaxHunger;
 
         public Kitten(Weight weight, CatBreed breed, int age) : base(weight, breed, age) 

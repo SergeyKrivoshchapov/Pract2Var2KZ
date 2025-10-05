@@ -11,11 +11,14 @@ namespace Pract2Var2KZ.Modules.Entities
 {
     public class Cat : Animal
     {
+        protected override double MinWeight => Constants.CatMinWeight;
+        protected override double MaxWeight => Constants.CatMaxWeight;
+        protected override int MaxAge => Constants.CatHighestAge;
+
         protected DateTime? PlayBlockedUntil { get; private set; }
         public override double MaxHunger => Constants.CatMaxHunger;
         public Cat (Weight weight, CatBreed breed, int age) : base(weight, breed.ToString(), age)
         {
-
         }
 
         public override void Eat()

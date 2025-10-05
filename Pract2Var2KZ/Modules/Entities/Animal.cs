@@ -12,26 +12,26 @@ namespace Pract2Var2KZ.Modules.Entities
 {
     public abstract class Animal : IUpdating
     {
+        protected abstract double MinWeight { get; }
+        protected abstract double MaxWeight { get; }
+        protected abstract int MaxAge { get; }
+        public abstract double MaxHunger { get; }
+
         private Weight _weight;
         public Weight Weight
         {
             get { return _weight; }
             protected set
             {
-                ArgumentOutOfRangeException.ThrowIfLessThan(value.Weight_kg, Constants.AnimalMinWeight);
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Weight_kg, Constants.AnimalMaxWeight);
+                ArgumentOutOfRangeException.ThrowIfLessThan(value.Weight_kg, MinWeight);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Weight_kg, MaxWeight);
                 _weight = value;
             }
         }
-        protected Weight InitialWeight
-        { 
-            get { return _weight; }
-            private set
-            {
-                ArgumentOutOfRangeException.ThrowIfLessThan(value.Weight_kg, Constants.AnimalMinWeight);
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Weight_kg, Constants.AnimalMaxWeight);
-            }
-        }
+    
+        private readonly Weight _initialWeight;
+        protected Weight InitialWeight => _initialWeight;
+
         private string _breed;
         public string Breed 
         {
@@ -49,7 +49,7 @@ namespace Pract2Var2KZ.Modules.Entities
             private set 
             {
                 ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, Constants.AnimalHighestAge);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, MaxAge);
                 _age = value;
             }
         }
@@ -60,10 +60,10 @@ namespace Pract2Var2KZ.Modules.Entities
             protected set
             {
                 ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, MaxHunger);
                 _hungerLevel = value;
             }
         }
-        public abstract double MaxHunger { get; }
         private static int _idCounter = 0;
         private int _id;
         public int Id
@@ -80,7 +80,12 @@ namespace Pract2Var2KZ.Modules.Entities
         {
             _id = ++_idCounter;
             Id = _id;
-            InitialWeight = Weight = weight;
+
+            ArgumentOutOfRangeException.ThrowIfLessThan(weight.Weight_kg, Constants.AnimalMinWeight);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(weight.Weight_kg, Constants.AnimalMaxWeight);
+            
+            _initialWeight = weight;
+            Weight = weight;
             Breed = breed;
             Age = age; 
             HungerLevel = MaxHunger;
@@ -91,7 +96,8 @@ namespace Pract2Var2KZ.Modules.Entities
         protected Animal(Animal other)
         {
             Id = ++_idCounter;
-            InitialWeight = other.Weight;
+            _initialWeight = other._initialWeight;
+            Weight= other._weight;
             Breed = other.Breed;
             Age = other.Age;
             HungerLevel = other.HungerLevel;
@@ -116,7 +122,6 @@ namespace Pract2Var2KZ.Modules.Entities
 
         public static Animal operator +(Animal animal, double kg)
         {
-            if (kg < 0) return animal;
             var newWeight = new Weight(animal.Weight.Weight_kg + kg);
             animal.Weight = newWeight;
 
