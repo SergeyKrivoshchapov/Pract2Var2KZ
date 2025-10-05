@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Pract2Var2KZ.Options
 {
@@ -12,6 +13,21 @@ namespace Pract2Var2KZ.Options
         public const int DefaultAnimalMaxHunger = 100;
         public const int CatMaxHunger = 200;
         public const int KittenMaxHunger = 100;
+
+        // max age
+        public const int AnimalHighestAge = 100;
+        public const int CatHighestAge = 30;
+        public const int KittenHighestAge = 3;
+
+        // max weight
+        public const double AnimalMaxWeight = 19000;
+        public const double CatMaxWeight = 21;
+        public const double KittenMaxWeight = 8;
+
+        // min weight
+        public const double AnimalMinWeight = 0.02;
+        public const double CatMinWeight = 8;
+        public const double KittenMinWeight = 0.2;
 
         // потеря веса игра 
         public const double CatWeightLossPercent = 0.02;
@@ -36,7 +52,7 @@ namespace Pract2Var2KZ.Options
         public const double HungerWeightLosePercent = 0.02;
 
         public const double HungerDecreaseUpdate = 2.0;
-        public const int KittenHighestAge = 3;
+
 
         // мин соотношение веса, сытости для возможности играть
         public const double MinWeightPercentForPlay = 0.5;

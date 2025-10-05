@@ -12,9 +12,36 @@ namespace Pract2Var2KZ.Modules.Entities
 {
     public abstract class Animal : IUpdating
     {
-        public Weight Weight { get; protected set; }
-        protected Weight InitialWeight { get; private set; }
-        public string Breed { get; private set; }
+        private Weight _weight;
+        public Weight Weight
+        {
+            get { return _weight; }
+            protected set
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(value.Weight_kg, Constants.AnimalMinWeight);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Weight_kg, Constants.AnimalMaxWeight);
+                _weight = value;
+            }
+        }
+        protected Weight InitialWeight
+        { 
+            get { return _weight; }
+            private set
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(value.Weight_kg, Constants.AnimalMinWeight);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Weight_kg, Constants.AnimalMaxWeight);
+            }
+        }
+        private string _breed;
+        public string Breed 
+        {
+            get { return _breed; }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Breed cant be empty");
+                _breed = value;
+            }
+        } 
         private int _age;
         public int Age
         {
@@ -22,14 +49,32 @@ namespace Pract2Var2KZ.Modules.Entities
             private set 
             {
                 ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, Constants.AnimalHighestAge);
                 _age = value;
             }
         }
-        public double HungerLevel { get; protected set; }
+        private double _hungerLevel;
+        public double HungerLevel
+        {
+            get { return _hungerLevel; }
+            protected set
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
+                _hungerLevel = value;
+            }
+        }
         public abstract double MaxHunger { get; }
         private static int _idCounter = 0;
         private int _id;
-        public int Id { get; private set; }
+        public int Id
+        {
+            get { return _id; }
+            private set
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(value, 0);
+                _id = value;
+            }
+        }
 
         protected Animal(Weight weight, string breed, int age)
         {
@@ -45,8 +90,7 @@ namespace Pract2Var2KZ.Modules.Entities
 
         protected Animal(Animal other)
         {
-            _id = ++_idCounter;
-            Id = _id;
+            Id = ++_idCounter;
             InitialWeight = other.Weight;
             Breed = other.Breed;
             Age = other.Age;
@@ -104,7 +148,7 @@ namespace Pract2Var2KZ.Modules.Entities
 
         public bool CanEat()
         {
-            return (HungerLevel / MaxHunger) < Constants.MaxPossibleFeedingLevel && Weight.Weight_kg < InitialWeight.Weight_kg * 2;
+            return (HungerLevel / MaxHunger) <= Constants.MaxPossibleFeedingLevel && Weight.Weight_kg < InitialWeight.Weight_kg * 2;
         }
 
         public override string ToString()
