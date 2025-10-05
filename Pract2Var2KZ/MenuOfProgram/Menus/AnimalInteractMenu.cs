@@ -24,6 +24,9 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             _actionCollection = actionCollection;
             _updateTime = updateTime;
 
+            AddSubMenu(new ExitButton("Exit button"),
+                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
+
             UpdateActions();
         }
 
@@ -46,12 +49,6 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             {
                 MoreMessage = string.Empty;
             }
-
-            if (!_keySubMenus.Any(kv => kv.Value is ExitButton))
-            {
-                AddSubMenu(new ExitButton("Exit button"),
-                new ConsoleKeyInfo((char)ConsoleKey.D0, ConsoleKey.D0, false, false, false));
-            }
         }
 
         public override Status Interaction()
@@ -70,6 +67,8 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 if (Console.KeyAvailable)
                 {
                     status = ChooseMenuElement();
+
+                    Console.Clear();
 
                     if (status == Status.ContinuationCycle)
                     {

@@ -32,7 +32,7 @@ namespace Pract2Var2KZ.MenuOfProgram
 
         protected string MoreMessage { get; set; } = string.Empty;
 
-        protected MenuComponent(string title, int pageSize = 2)
+        protected MenuComponent(string title, int pageSize = 9)
         {
             Title = title;
             pagesMenu = new PagesMenu(_numeralsSubMenus, pageSize);

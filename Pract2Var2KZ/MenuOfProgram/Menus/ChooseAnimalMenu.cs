@@ -44,7 +44,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
                 {
                     foreach (var animal in _petHouse.GetAnimals()[animalType])
                     {
-                        AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {(int)animal.HungerLevel} / {(int)animal.MaxHunger}",
+                        AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {(int)(animal.HungerLevel):d3} / {(int)animal.MaxHunger}",
                             animal, _actionCollection, _updateTime));
                     }
                 }

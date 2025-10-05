@@ -1,4 +1,5 @@
-﻿using Pract2Var2KZ.Options;
+﻿using Pract2Var2KZ.MenuOfProgram;
+using Pract2Var2KZ.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,8 @@ namespace Pract2Var2KZ.Modules.Entities
         {
             Console.WriteLine($"Cat looks angry. He cant play next {Constants.CatAngryLookBlockDuration} seconds");
             BlockPlayFor(TimeSpan.FromSeconds(Constants.CatAngryLookBlockDuration));
-            Console.ReadLine();
+            ConsoleInteraction.ReadKey();
+            Console.Clear();
         }
     }
 }
