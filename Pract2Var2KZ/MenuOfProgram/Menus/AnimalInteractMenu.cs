@@ -34,6 +34,8 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
         {
             _actions = _actionCollection.GetAnimalActions(_animal).Where(a => a.CanExecute(_animal)).ToList();
 
+            List<MenuComponent> _bufferNumeralsSubMenus = [];
+
             _numeralsSubMenus.Clear();
 
             foreach (var action in _actions)

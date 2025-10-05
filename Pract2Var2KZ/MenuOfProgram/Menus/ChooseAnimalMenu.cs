@@ -38,16 +38,7 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             {
                 Console.Clear();
 
-                _numeralsSubMenus.Clear();
-
-                foreach (var animalType in _petHouse.GetAnimals().Keys)
-                {
-                    foreach (var animal in _petHouse.GetAnimals()[animalType])
-                    {
-                        AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {(int)(animal.HungerLevel):d3} / {(int)animal.MaxHunger}",
-                            animal, _actionCollection, _updateTime));
-                    }
-                }
+                ButtonsUpdate();
 
                 if (CountAnimals() == 0 && MoreMessage == string.Empty)
                 {
@@ -74,7 +65,12 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
 
                     if (Console.KeyAvailable)
                     {
-                        status = ChooseMenuElement();                    }
+                        status = ChooseMenuElement();
+
+                        ButtonsUpdate();
+
+                        Console.Clear();
+                    }
 
                     Thread.Sleep(_updateTime);
                 }
@@ -86,6 +82,20 @@ namespace Pract2Var2KZ.MenuOfProgram.Menus
             }
 
             return Status.ContinuationCycle;
+        }
+
+        private void ButtonsUpdate()
+        {
+            _numeralsSubMenus.Clear();
+
+            foreach (var animalType in _petHouse.GetAnimals().Keys)
+            {
+                foreach (var animal in _petHouse.GetAnimals()[animalType])
+                {
+                    AddSubMenu(new AnimalInteractMenu($"{animal.GetType().Name} - {animal.Breed}, {animal.Age} yo, {animal.Weight}, {(int)(animal.HungerLevel):d3} / {(int)animal.MaxHunger}",
+                        animal, _actionCollection, _updateTime));
+                }
+            }
         }
 
         private int CountAnimals()
