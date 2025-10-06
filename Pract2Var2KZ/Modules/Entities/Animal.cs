@@ -81,8 +81,8 @@ namespace Pract2Var2KZ.Modules.Entities
             _id = ++_idCounter;
             Id = _id;
 
-            ArgumentOutOfRangeException.ThrowIfLessThan(weight.Weight_kg, Constants.AnimalMinWeight);
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(weight.Weight_kg, Constants.AnimalMaxWeight);
+            ArgumentOutOfRangeException.ThrowIfLessThan(weight.Weight_kg, MinWeight);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(weight.Weight_kg, MaxWeight);
             
             _initialWeight = weight;
             Weight = weight;
@@ -94,10 +94,12 @@ namespace Pract2Var2KZ.Modules.Entities
         }
 
         protected Animal(Animal other)
-        {
+        {   
             Id = ++_idCounter;
-            _initialWeight = other._initialWeight;
-            Weight= other._weight;
+
+            _initialWeight = new Weight(other._initialWeight.Weight_kg);
+            Weight= new Weight(other.Weight.Weight_kg);
+
             Breed = other.Breed;
             Age = other.Age;
             HungerLevel = other.HungerLevel;
@@ -105,7 +107,7 @@ namespace Pract2Var2KZ.Modules.Entities
             UpdateManager.Register(this);
         }
         
-
+        // перегрузка оператора присваивания невозможна в C#, поверхностное копирование было бы некорректным в случае с объектами животных, поэтому:
         public void Assign(Animal other)
         {
             if (this.GetType() != other.GetType())

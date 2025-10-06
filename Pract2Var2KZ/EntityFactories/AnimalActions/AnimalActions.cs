@@ -53,30 +53,21 @@ namespace Pract2Var2KZ.EntityFactories.AnimalActions
             return animal != null;
         }
 
-        public void Execute(Animal animal) 
+        public void Execute(Animal animal)
         {
-            try
-            {
-                var parameters = new CreationParameters();
-                parameters.AddParameter("Weight", animal.Weight);
-                parameters.AddParameter("Age", animal.Age);
-
-                if (animal is Cat cat)
+            try 
+            { 
+                var copyConstructor = animal.GetType().GetConstructor(new[] { animal.GetType() });
+                if (copyConstructor == null)
                 {
-                    var breed = Enum.Parse<CatBreed>(cat.Breed);
-                    parameters.AddParameter("Breed", breed);
-
-                    var factory = _factoryCollection.GetFactoryForCopy(typeof(Cat));
-                    var copy = factory.CreateAnimal(parameters);
-
-                    _petHouse.AddAnimal(copy);
+                    throw new NotSupportedException($"No copy constructor for {animal.GetType().Name}");
                 }
+
+                var copy = (Animal)copyConstructor.Invoke(new object[] { animal });
+                _petHouse.AddAnimal(copy);
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
-
-
-
         void IAnimalAction.Execute(Animal animal) => Execute(animal);
     }
 }

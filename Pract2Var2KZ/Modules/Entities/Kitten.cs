@@ -21,6 +21,8 @@ namespace Pract2Var2KZ.Modules.Entities
             
         }
 
+        public Kitten(Kitten other) : base(other) { }
+
         public override void Eat()
         {
             double append = Weight.Weight_kg * Constants.KittenWeightGainPercent;

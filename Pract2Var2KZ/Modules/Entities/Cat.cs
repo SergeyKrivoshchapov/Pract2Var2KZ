@@ -21,6 +21,10 @@ namespace Pract2Var2KZ.Modules.Entities
         {
         }
 
+        public Cat(Cat other) : base(other)
+        {
+        }
+
         public override void Eat()
         {
             double append = Weight.Weight_kg * Constants.CatWeightGainPercent;
